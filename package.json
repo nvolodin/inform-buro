@@ -1,0 +1,23 @@
+{
+	"name":"Inform-Buro-Pro",
+	"private":true,
+	"version":"0.0.0",
+	"license": "MIT",
+  	"devDependencies": {
+    "karma": "latest",
+    "protractor": "latest",
+    "http-server": "latest",
+    "bower": "latest",
+    "shelljs": "latest",
+    "karma-junit-reporter": "latest"
+  },
+  "scripts": {
+  	"postinstall": "bower install",
+  	"prestart": "npm install",
+    "start": "http-server -a localhost -p 8000 -c-1",
+
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js  --single-run"
+  }
+}

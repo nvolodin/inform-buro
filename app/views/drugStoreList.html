@@ -1,0 +1,41 @@
+<div style="padding-top:5px;">
+	<div class="btn-group btn-group-justified" role="group">
+		<div class="btn-group" role="group">
+	  		<button type="button" class="btn btn-default ng-class:(dsc.model.state==='list'?'active':'')" ng-click="dsc.model.state='list'">Список</button>
+	  </div>
+	  <div class="btn-group" role="group">
+	  		<button type="button" class="btn btn-default ng-class:(dsc.model.state==='maps'?'active':'')" ng-click="dsc.showMap()">Карта</button>
+	  </div>
+	</div>
+</div>
+<div ng-show="dsc.model.state=='list'">
+	<div style="padding:5px 0">
+		<select class="form-control" ng-model="dsc.model.order.mode" ng-change="dsc.orderChanged()">
+		  <option value="0">По цене (по возрастанию)</option>
+		  <option  value="1">По цене (по убыванию)</option>
+		</select>	
+	</div>	
+	<ul class="list-unstyled">
+		<li ng-repeat="store in dsc.model.drugStores | orderBy:dsc.model.order.orderBy:dsc.model.order.orderReverse | limitTo:25" class="drug-store-list-item" >
+			<div class="drug-store-list-item-wrapper">
+				<dl class="drug-store-list-desc">
+					<dt ng-bind="store.nmfirm"></dt>
+					<dd>
+						<span style="padding-right:5px" ng-bind="store.str"></span>
+						<span style="padding-right:5px" ng-bind="store.phones"></span>
+						<span style="padding-right:5px" ng-bind="store.time"></span>
+					</dd>
+				</dl>
+				
+				<div class="drug-store-list-price">
+					<span ng-bind="store.price" class="drug-store-list-desc-price" ></span>
+					<span class="drug-store-list-desc-price">&nbsp;руб.</span>				
+				</div>
+			</div>
+		</li>
+	</ul>
+
+</div>
+<div ng-show="dsc.model.state=='maps'">
+	<div id="map" ></div>
+</div>

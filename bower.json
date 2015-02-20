@@ -1,0 +1,19 @@
+{
+	"name":"Inform-Buro",
+	"version":"0.1",
+	"main":"index",
+	 "license": "MIT",
+	"ignore":[
+		"**/.*",
+		"libs"
+	],
+	"dependencies":{
+		"angular":"latest",
+		 "angular-mocks": "latest",
+		 "jquery": "latest",
+		 "bootstrap": "latest",
+		 "angular-route": "latest",
+		 "angular-resource": "latest",
+		 "socket.io-client":"latest"
+	}
+}

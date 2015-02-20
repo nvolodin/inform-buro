@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="informBuroApp">
+<head>
+	<title>Информ бюро</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no, maximum-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div  class="container">
+    <ng-include src="'views/searchPanel.html'" ></ng-include>
+	 <div ng-view></div>	
+	</div>
+  <script src="components/jquery/dist/jquery.js"></script>
+  <script src="components/angular/angular.js"></script>
+  <script src="components/angular-route/angular-route.js"></script>
+  <script src="components/angular-resource/angular-resource.js"></script>
+  <script src="components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="//inform-buro.info/socket.io/socket.io.js"></script>
+  <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&mode=debug"></script>
+  <script src="js/app.js"></script>
+  <script src="js/WebSocketFactory.js"></script>
+  <script src="js/directives/ngEnter.js"></script>
+  <script src="js/directives/encodeUri.js"></script>
+  <script src="js/controllers/searchPanelCtrl.js"></script>
+  <script src="js/controllers/searchCtrl.js"></script>
+  <script src="js/controllers/drugStoreListCtrl.js"></script>
+</body>
+</html>
