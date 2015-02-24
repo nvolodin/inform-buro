@@ -20,6 +20,7 @@ module.exports=function(config){
 	            'karma-firefox-launcher',
 	            'karma-jasmine'
 	            ],
+		
 		reporters: ['teamcity'],
 		port: 9876,
 		colors: true,
