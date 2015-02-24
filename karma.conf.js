@@ -13,17 +13,22 @@ module.exports=function(config){
 		],
 		frameworks: ['jasmine'],
 
-	    browsers : ['Chrome'],
+	    browsers : ['PhantomJS'],
 
 	    plugins : [
 	            'karma-chrome-launcher',
 	            'karma-firefox-launcher',
 	            'karma-jasmine'
 	            ],
-
+		reporters: ['teamcity'],
+		port: 9876,
+		colors: true,
+		logLevel: config.LOG_INFO,
+		autoWatch: true,
 	    junitReporter : {
 	      outputFile: 'test_out/unit.xml',
 	      suite: 'unit'
-	    }
+	    },
+		singleRun: true
 	});
 }
