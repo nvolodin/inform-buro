@@ -16,11 +16,11 @@ module.exports=function(config){
 	    browsers : ['PhantomJS'],
 
 	    plugins : [
-	            'karma-chrome-launcher',
-	            'karma-firefox-launcher',
+	            //'karma-chrome-launcher',
+	            //'karma-firefox-launcher',
 	            'karma-jasmine'
 	            ],
-		
+
 		reporters: ['teamcity'],
 		port: 9876,
 		colors: true,
