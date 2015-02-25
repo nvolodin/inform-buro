@@ -11,6 +11,10 @@
     "shelljs": "latest",
     "karma-junit-reporter": "latest"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nvolodin/inform-buro"
+  },
   "scripts": {
   	"postinstall": "bower install",
   	"prestart": "npm install",
