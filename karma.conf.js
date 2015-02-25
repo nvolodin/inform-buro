@@ -16,6 +16,7 @@ module.exports=function(config){
 	    browsers : ['PhantomJS'],
 
 	    plugins : [
+				'karma-teamcity-reporter',
 	            'karma-chrome-launcher',
 	            'karma-firefox-launcher',
 	            'karma-jasmine',
