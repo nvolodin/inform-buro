@@ -32,6 +32,10 @@ module.exports=function(config){
 	      outputFile: 'test_out/unit.xml',
 	      suite: 'unit'
 	    },
-		singleRun: true
+		singleRun: true,
+		browserDisconnectTimeout : 10000,
+		browserDisconnectTolerance : 1,
+		browserNoActivityTimeout : 4*60*1000,
+		captureTimeout : 4*60*1000
 	});
 }
