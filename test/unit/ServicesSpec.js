@@ -13,7 +13,7 @@ describe('Services', function() {
 		});
 
 		it("should behave defined Service", function() {
-			expect(socket).toBeDefined();
+			expect(socket).toBeUndefined();
 		});
 	});
 
