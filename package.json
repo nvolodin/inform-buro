@@ -1,14 +1,12 @@
 {
 	"name":"Inform-Buro-Pro",
 	"private":true,
-	"version":"0.0.0",
+	"version":"0.0.1",
 	"license": "MIT",
 	"devDependencies": {
 		"protractor": "latest",
 		"karma": "latest",
-		"http-server": "latest",
 		"bower": "latest",
-		"shelljs": "latest",
 		"karma-junit-reporter": "latest",
 		"karma-jasmine": "latest",
 		"karma-teamcity-reporter": "latest",
