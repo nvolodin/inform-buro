@@ -1,25 +1,31 @@
 {
-	"name":"Inform-Buro-Pro",
-	"private":true,
-	"version":"0.0.1",
-	"license": "MIT",
-	"devDependencies": {
-		"protractor": "latest",
-		"karma": "latest",
-		"bower": "latest",
-		"karma-junit-reporter": "latest",
-		"karma-jasmine": "latest",
-		"karma-teamcity-reporter": "latest",
-		"karma-chrome-launcher": "latest",
-		"karma-firefox-launcher": "latest",
-		"karma-phantomjs-launcher": "latest"
+  "name": "Inform-Buro-Pro",
+  "private": true,
+  "version": "0.0.1",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-karma": "latest",
+    "protractor": "latest",
+    "karma": "latest",
+    "bower": "latest",
+    "karma-junit-reporter": "latest",
+    "karma-jasmine": "latest",
+    "phantomjs": "latest",
+    "karma-phantomjs-launcher": "latest",
+    "karma-teamcity-reporter": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-firefox-launcher": "latest",
+    "angular-mocks": "latest"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/nvolodin/inform-buro"
   },
   "scripts": {
-  	"postinstall": "bower install",
+    "postinstall": "bower install",
     "test": "karma start karma.conf.js",
     "test-single-run": "karma start karma.conf.js  --single-run"
   }

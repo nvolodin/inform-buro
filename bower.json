@@ -8,12 +8,6 @@
 		"libs"
 	],
 	"dependencies":{
-		"angular":"latest",
-		 "angular-mocks": "latest",
-		 "jquery": "latest",
-		 "bootstrap": "latest",
-		 "angular-route": "latest",
-		 "angular-resource": "latest",
-		 "socket.io-client":"latest"
+	  "angular-mocks": "latest"
 	}
 }
