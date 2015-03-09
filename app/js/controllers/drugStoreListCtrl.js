@@ -128,7 +128,7 @@
                 },
                 proceedInit: function () {
                     ymm.load();
-                    //map.events.add("boundschange",function(){map.balloon.isOpen()||(ymm.load())});
+                    map.events.add("boundschange",function(){map.balloon.isOpen()||(ymm.load())});
                 }
             };
             return ymm;
@@ -143,7 +143,6 @@
                         obj.pos.lat = parseFloat(obj.pos.lat);
                         obj.pos.lon = parseFloat(obj.pos.lon);
                     }
-
                 }
                 return obj.pos;
             }
