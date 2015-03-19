@@ -49,6 +49,37 @@
 		font-size: 100%;
 	}
 
+.b-map-balloon-price{
+	color: #323232;
+	padding-bottom: 5px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.b-map-balloon__oname {
+	font-size: 12px;
+	color: #656565;
+	padding-bottom: 4px;
+}
+
+.b-map-balloon-shopname {
+	color: #066fc1;
+	font-weight: bold;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.b-map-balloon-worktime {
+	font-size: 12px;
+	color: #656565;
+}
+
+.b-map-balloon-addr {
+	padding-top: 5px;
+	font-size: 12px;
+	color: #656565;
+}
+
 @media (max-width:480px){
 	.drug-store-list-item-wrapper{
 		display: block;

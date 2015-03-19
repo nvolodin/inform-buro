@@ -57,7 +57,6 @@
             $(window).resize(resize);
             createMapByGeo();
             setMapHeight();
-
         }
 
         function createMapByGeo() {
@@ -83,7 +82,6 @@
 
         function createMap(state) {
             return new ymaps.Map('map', state);
-
         }
 
         function resize() {
@@ -111,11 +109,12 @@
                     var e = map.getBounds();
                     map.geoObjects.removeAll();
                     for (var i = 0, j = 0; i < vm.model.drugStores.length && j < 20; i++) {
-                        getPos(vm.model.drugStores[i]);
-                        if (isContains(vm.model.drugStores[i].pos, e)) {
-                            var s = new ymaps.Placemark([vm.model.drugStores[i].pos.lat, vm.model.drugStores[i].pos.lon], {
+                        var item=vm.model.drugStores[i];
+                        getPos(item);
+                        if (isContains(item.pos, e)) {
+                            var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
                                 iconContent: ++j,
-                                balloonContent: '<div>' + vm.model.drugStores[i].price + '</div>'//ymm.generateBalloonContent(t)
+                                balloonContent: ymm.generateBalloonContent(item)
                             }, {
                                 preset: {
                                     openBaloonOnClick: true,
@@ -129,6 +128,13 @@
                 proceedInit: function () {
                     ymm.load();
                     map.events.add("boundschange",function(){map.balloon.isOpen()||(ymm.load())});
+                },
+                generateBalloonContent: function (item) {
+                    return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>'+
+                        (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '')+
+                        '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>'+
+                        '<div class="b-map-balloon-worktime">' + item.time + '</div>'+
+                        '<div class="b-map-balloon-addr">' + item.str + '</div>';
                 }
             };
             return ymm;
