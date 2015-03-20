@@ -60,6 +60,7 @@
         }
 
         function createMapByGeo() {
+            var controls=["zoomControl", "fullscreenControl","geolocationControl"];
             ymaps.geolocation.get({mapStateAutoApply: true}).then(function (result) {
                 var $map = $('#map'),
                     bounds = result.geoObjects.get(0).properties.get('boundedBy'),
@@ -68,6 +69,7 @@
                         [$map.width(), $map.height()]
                     );
                 mapState.zoom=15;
+                mapState.controls= controls;
                 map = map || createMap(mapState);
                 //map.geoObjects.add(result.geoObjects);
                 ymm.proceedInit();
@@ -75,7 +77,8 @@
                 console.log(e);
                 createMap({
                     center: [55.751574, 37.573856],
-                    zoom: 2
+                    zoom: 2,
+                    controls: controls
                 });
             });
         }
