@@ -5,8 +5,8 @@
         'ngRoute',
         'informBuroApp.core'
     ])
-        .config(['$routeProvider', '$locationProvider', function ($routeProvider, $location) {
-            $location.hashPrefix('!');
+        .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+            $locationProvider.hashPrefix('!');
             $routeProvider
                 .when('/search/:drug', {
                     templateUrl: 'views/search.html',
