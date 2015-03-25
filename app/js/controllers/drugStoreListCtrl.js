@@ -26,7 +26,7 @@
             vm.model.state = 'maps';
             !map && ymaps && ymaps.ready(initMap);
             if (heightIsDirty)
-                setTimeout(setMapHeight,1);
+                setTimeout(setMapHeight, 1);
         };
 
         function init() {
@@ -60,7 +60,23 @@
         }
 
         function createMapByGeo() {
-            var controls=["zoomControl", "fullscreenControl","geolocationControl"];
+            var prevBtn = new ymaps.control.Button({
+                data: {
+                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-left',
+                    title: 'Предыдущая аптека'
+                },
+                options: {
+                    selectOnClick: false, float: 'right'
+                }
+            }), nextBtn = new ymaps.control.Button({
+                data: {
+                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-right',
+                    title: 'Следующая аптека'
+                },
+                options: {
+                    selectOnClick: false, float: 'right'
+                }
+            }), controls = ["zoomControl", "fullscreenControl", prevBtn, nextBtn, "geolocationControl"];
             ymaps.geolocation.get({mapStateAutoApply: true}).then(function (result) {
                 var $map = $('#map'),
                     bounds = result.geoObjects.get(0).properties.get('boundedBy'),
@@ -68,8 +84,8 @@
                         bounds,
                         [$map.width(), $map.height()]
                     );
-                mapState.zoom=15;
-                mapState.controls= controls;
+                mapState.zoom = 15;
+                mapState.controls = controls;
                 map = map || createMap(mapState);
                 //map.geoObjects.add(result.geoObjects);
                 ymm.proceedInit();
@@ -112,7 +128,7 @@
                     var e = map.getBounds();
                     map.geoObjects.removeAll();
                     for (var i = 0, j = 0; i < vm.model.drugStores.length && j < 20; i++) {
-                        var item=vm.model.drugStores[i];
+                        var item = vm.model.drugStores[i];
                         getPos(item);
                         if (isContains(item.pos, e)) {
                             var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
@@ -129,14 +145,18 @@
                     }
                 },
                 proceedInit: function () {
+                    //<span class="glyphicon glyphicon-triangle-left"></span>
+                    //<span class="glyphicon glyphicon-triangle-right"></span>
                     ymm.load();
-                    map.events.add("boundschange",function(){map.balloon.isOpen()||(ymm.load())});
+                    map.events.add("boundschange", function () {
+                        map.balloon.isOpen() || (ymm.load())
+                    });
                 },
                 generateBalloonContent: function (item) {
-                    return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>'+
-                        (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '')+
-                        '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>'+
-                        '<div class="b-map-balloon-worktime">' + item.time + '</div>'+
+                    return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>' +
+                        (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '') +
+                        '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>' +
+                        '<div class="b-map-balloon-worktime">' + item.time + '</div>' +
                         '<div class="b-map-balloon-addr">' + item.str + '</div>';
                 }
             };
