@@ -6,7 +6,7 @@ module.exports=function(config){
 			'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js',
 			'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js',
 			'app/components/angular-mocks/angular-mocks.js',
-			'https://cdn.socket.io/socket.io-1.3.2.js',
+			'app/components/socket.io-client/socket.io.js',
 			'app/js/app.min.js',
 			'test/unit/**/*.js'
 		],

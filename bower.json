@@ -1,13 +1,14 @@
 {
-	"name":"Inform-Buro-Pro",
-	"version":"0.0.1",
-	"main":"index",
-	 "license": "MIT",
-	"ignore":[
-		"**/.*",
-		"libs"
-	],
-	"dependencies":{
-	  "angular-mocks": "latest"
-	}
+  "name": "Inform-Buro-Pro",
+  "version": "0.0.1",
+  "main": "index",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "libs"
+  ],
+  "dependencies": {
+    "angular-mocks": "latest",
+    "socket.io-client": "latest"
+  }
 }

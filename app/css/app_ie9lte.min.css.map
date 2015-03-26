@@ -1,6 +1,1 @@
-{
-  "version": 3,
-  "sources": ["app_ie9lte.css"],
-  "names": [],
-  "mappings": "AAAA,8CACI,qBACA,eAGJ,iCACI,gBAGJ,gCACI"
-}
+{"version":3,"sources":["app_ie9lte.css"],"names":[],"mappings":"AAAA,8CACI,qBACA,eAGJ,iCACI,gBAGJ,gCACI"}
