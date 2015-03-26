@@ -20,7 +20,8 @@ module.exports = function (grunt) {
             },
             target: {
                 files: {
-                    'app/css/app.min.css': ['app/css/app.css']
+                    'app/css/app.min.css': ['app/css/app.css'],
+                    'app/css/app_ie9lte.min.css': ['app/css/app_ie9lte.css']
                 }
             }
         },

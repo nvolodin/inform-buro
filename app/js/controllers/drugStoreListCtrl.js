@@ -6,7 +6,7 @@
 
     DrugStoreListController.$inject = ['webSocket', '$routeParams'];
     function DrugStoreListController(webSocket, $routeParams) {
-        var vm = this, map, resizeTimer, heightIsDirty, ymm = getYmm();
+        var vm = this, map, resizeTimer, _heightIsDirty = true, ymm = getYmm();
         init();
 
         vm.orderChanged = function () {
@@ -25,7 +25,7 @@
         vm.showMap = function () {
             vm.model.state = 'maps';
             !map && ymaps && ymaps.ready(initMap);
-            if (heightIsDirty)
+            if (_heightIsDirty)
                 setTimeout(setMapHeight, 1);
         };
 
@@ -60,23 +60,7 @@
         }
 
         function createMapByGeo() {
-            var prevBtn = new ymaps.control.Button({
-                data: {
-                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-left',
-                    title: 'Предыдущая аптека'
-                },
-                options: {
-                    selectOnClick: false, float: 'right'
-                }
-            }), nextBtn = new ymaps.control.Button({
-                data: {
-                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-right',
-                    title: 'Следующая аптека'
-                },
-                options: {
-                    selectOnClick: false, float: 'right'
-                }
-            }), controls = ["zoomControl", "fullscreenControl", prevBtn, nextBtn, "geolocationControl"];
+            var controls = ["zoomControl", "fullscreenControl", "geolocationControl"];
             ymaps.geolocation.get({mapStateAutoApply: true}).then(function (result) {
                 var $map = $('#map'),
                     bounds = result.geoObjects.get(0).properties.get('boundedBy'),
@@ -111,10 +95,10 @@
         function setMapHeight() {
             var $map = $("#map:visible");
             if (!$map.length) {
-                heightIsDirty = true;
+                _heightIsDirty = true;
                 return;
             }
-            heightIsDirty = false;
+            _heightIsDirty = false;
             var mapHeight = $(window).height() - $map.position().top;
             $map.css("height", mapHeight);
             if (map) {
@@ -123,43 +107,63 @@
         }
 
         function getYmm() {
-            var re = /"pos":({.*?})/gm, ymm = {
-                load: function () {
-                    var e = map.getBounds();
-                    map.geoObjects.removeAll();
-                    for (var i = 0, j = 0; i < vm.model.drugStores.length && j < 20; i++) {
-                        var item = vm.model.drugStores[i];
-                        getPos(item);
-                        if (isContains(item.pos, e)) {
-                            var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
-                                iconContent: ++j,
-                                balloonContent: ymm.generateBalloonContent(item)
-                            }, {
-                                preset: {
-                                    openBaloonOnClick: true,
-                                    preset: 'twirl#blueDotIcon'
-                                }, balloonMaxWidth: 400
-                            });
-                            map.geoObjects.add(s);
+            var re = /"pos":({.*?})/gm, currentDrugStoreIndex = -1, count = 20,
+                ymm = {
+                    load: function () {
+                        var e = map.getBounds();
+                        map.geoObjects.removeAll();
+                        for (var i = 0, j = 0; i < vm.model.drugStores.length && j < count; i++) {
+                            var item = vm.model.drugStores[i];
+                            getPos(item);
+                            if (isContains(item.pos, e)) {
+                                var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
+                                    iconContent: ++j,
+                                    balloonContent: ymm.generateBalloonContent(item)
+                                }, {
+                                    preset: {
+                                        openBaloonOnClick: true,
+                                        preset: 'twirl#blueDotIcon'
+                                    }, balloonMaxWidth: 400
+                                });
+                                map.geoObjects.add(s);
+                            }
                         }
+                    },
+                    proceedInit: function () {
+                        var prevBtn = new ymaps.control.Button({
+                                data: {
+                                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-left',
+                                    title: 'Предыдущая аптека'
+                                },
+                                options: {
+                                    selectOnClick: false, float: 'right'
+                                }
+                            }),
+                            nextBtn = new ymaps.control.Button({
+                                data: {
+                                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-right',
+                                    title: 'Следующая аптека'
+                                },
+                                options: {
+                                    selectOnClick: false, float: 'right'
+                                }
+                            });
+                        prevBtn.events.add("click", onPrevDrugStore);
+                        nextBtn.events.add("click", onNextDrugStore);
+                        map.controls.add(prevBtn).add(nextBtn);
+                        ymm.load();
+                        map.events.add("boundschange", function () {
+                            map.balloon.isOpen() || (ymm.load())
+                        });
+                    },
+                    generateBalloonContent: function (item) {
+                        return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>' +
+                            (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '') +
+                            '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>' +
+                            '<div class="b-map-balloon-worktime">' + item.time + '</div>' +
+                            '<div class="b-map-balloon-addr">' + item.str + '</div>';
                     }
-                },
-                proceedInit: function () {
-                    //<span class="glyphicon glyphicon-triangle-left"></span>
-                    //<span class="glyphicon glyphicon-triangle-right"></span>
-                    ymm.load();
-                    map.events.add("boundschange", function () {
-                        map.balloon.isOpen() || (ymm.load())
-                    });
-                },
-                generateBalloonContent: function (item) {
-                    return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>' +
-                        (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '') +
-                        '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>' +
-                        '<div class="b-map-balloon-worktime">' + item.time + '</div>' +
-                        '<div class="b-map-balloon-addr">' + item.str + '</div>';
-                }
-            };
+                };
             return ymm;
 
             function getPos(obj) {
@@ -178,6 +182,51 @@
 
             function isContains(pos, rect) {
                 return pos && pos.lat && pos.lon && rect && rect.length == 2 && pos.lat > rect[0][0] && pos.lon > rect[0][1] && pos.lat < rect[1][0] && pos.lon < rect[1][1];
+            }
+
+            function centerDrugStoreByIndex(iterator) {
+                if (!vm.model || !vm.model.drugStores || !iterator)
+                    return;
+
+                var start = iterator.call(), isComplete = false, current;
+                current = start;
+                while (!isComplete) {
+
+                    if (current >= 0 && current < vm.model.drugStores.length) {
+                        var item = vm.model.drugStores[current];
+                        getPos(item);
+                        if (item.pos && item.pos.lat && item.pos.lon) {
+                            if (map.balloon.isOpen())
+                                map.balloon.close();
+                            map.setCenter([item.pos.lat, item.pos.lon]);
+                            isComplete = true;
+                        }
+                    }
+                    if (!isComplete) {
+                        current = iterator.call();
+                        if (current == start)
+                            isComplete = true;
+                    }
+                }
+
+            }
+
+            function onNextDrugStore() {
+                centerDrugStoreByIndex(function () {
+                    currentDrugStoreIndex++;
+                    if (currentDrugStoreIndex >= vm.model.drugStores.length)
+                        currentDrugStoreIndex = 0;
+                    return currentDrugStoreIndex;
+                });
+            }
+
+            function onPrevDrugStore() {
+                centerDrugStoreByIndex(function () {
+                    currentDrugStoreIndex--;
+                    if (currentDrugStoreIndex < 0)
+                        currentDrugStoreIndex = vm.model.drugStores.length - 1;
+                    return currentDrugStoreIndex;
+                });
             }
         }
     }

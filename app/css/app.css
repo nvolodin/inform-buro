@@ -80,6 +80,11 @@
 	color: #656565;
 }
 
+.ymaps-2-1-22-button__icon_icon_prevDrugStore {
+	line-height: 28px;
+	font-size: 15px;
+}
+
 @media (max-width:480px){
 	.drug-store-list-item-wrapper{
 		display: block;
