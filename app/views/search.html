@@ -8,6 +8,7 @@
 				<dd>
 					<span ng-bind="::drug.form"></span>
 					<span ng-bind="::drug.nmmnn"></span>
+					<span class="drug-offers" ng-bind="::sc.getDrugOffersCount(drug.prices)"></span>
 				</dd>
 			</dl>
 			<hr/>
