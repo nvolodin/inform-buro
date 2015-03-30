@@ -6,21 +6,19 @@ describe("Search Controller", function() {
 	it("should behave defined", inject(function($controller) {
 		var ctrl=$controller('SearchCtrl');
 		expect(ctrl).toBeDefined();
-	}))
+	}));
 
 	describe("when received search", function() {
 		var searchController, 
 			webServiceMock=(function(){
-				var _webServiceMock={
-					getDrugs: function(query, callback){
-						if (callback)
-						 {
-						 	var data=[{prices:0},{prices:10}];
-						 	callback.call(this, data);
-						 };
+				return {
+					getDrugs: function (query, callback) {
+						if (callback) {
+							var data = [{prices: 0}, {prices: 10}];
+							callback.call(this, data);
+						}
 					}
-				}
-				return _webServiceMock;
+				};
 			})(),
 			routeParams={drug:'t'};
 		beforeEach(function(){

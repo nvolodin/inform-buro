@@ -6,14 +6,14 @@ describe("Search Panel Controller", function() {
 	it("should behave defined", inject(function($controller) {
 		var ctrl=$controller('SearchPanelCtrl');
 		expect(ctrl).toBeDefined();
-	}))
+	}));
 
 	describe("when received search", function() {
 		var searchPanelController, 
 			location=(function(){
 				var _mock= {
 					path:path
-				}
+				};
 
 				return _mock;
 

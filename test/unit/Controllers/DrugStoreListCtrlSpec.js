@@ -12,22 +12,20 @@ describe("Drug Store List Controller", function() {
 		expect(ctrl.model.order.orderBy).toBe('price');
 		expect(ctrl.model.order.orderReverse).toBe(false);
 		expect(ctrl.model.drugStores).toEqual([]);
-	}))
+	}));
 
 	describe("get drug stores by drugid", function() {
 		var drugStoreListController, 
 			webServiceMock=(function(){
-				var _webServiceMock={
-					getDrugStoresByDrug: function(query, callback){
-						if (callback)
-						 {
-						 	var data=[
-						 	{cdfirm: 123, nmfirm: "A1"},{cdfirm: 123, nmfirm: "A2"}];
-						 	callback.call(this, data);
-						 };
+				return {
+					getDrugStoresByDrug: function (query, callback) {
+						if (callback) {
+							var data = [
+								{cdfirm: 123, nmfirm: "A1"}, {cdfirm: 123, nmfirm: "A2"}];
+							callback.call(this, data);
+						}
 					}
-				}
-				return _webServiceMock;
+				};
 			})(),
 			routeParams={cdprep:123,cdform:321};
 		beforeEach(function(){
@@ -45,8 +43,12 @@ describe("Drug Store List Controller", function() {
 			expect(drugStoreListController.model.drugStores.length).toBe(2); 
 		});
 
+		it("should behave groupedDrugStores", function() {
+			expect(drugStoreListController.model.groupedDrugStores.length).toBe(1);
+		});
+
 		it("should behave order by price desc", function() {
-			expect(drugStoreListController.model.order.mode).toBe('0')
+			expect(drugStoreListController.model.order.mode).toBe('0');
 			drugStoreListController.model.order.mode='1';
 			drugStoreListController.orderChanged();
 			expect(drugStoreListController.model.order.orderBy).toBe('price');

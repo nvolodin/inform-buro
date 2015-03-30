@@ -24,6 +24,8 @@
 
         vm.showMap = function () {
             vm.model.state = 'maps';
+            if (!ymaps)
+            return;
             !map && ymaps && ymaps.ready(initMap);
             if (_heightIsDirty)
                 setTimeout(setMapHeight, 1);
