@@ -51,6 +51,31 @@
 
         function addDrugStore(data) {
             vm.model.drugStores = data;
+            vm.model.groupedDrugStores = groupByDrugStore(data)
+        }
+
+        function groupByDrugStore(data) {
+            var itemsHash = {}, result = [];
+            for (var i = 0, item, index; i < data.length; i++) {
+                item = data[i];
+                if (itemsHash[item.cdfirm] == null)
+                    itemsHash[item.cdfirm] = result.length;
+                index = itemsHash[item.cdfirm];
+                result[index] = result[index] || {
+                    cdfirm: item.cdfirm,
+                    map: item.map,
+                    nmfirm: item.nmfirm,
+                    phones: item.phones,
+                    str: item.str,
+                    time: item.time,
+                    products: []
+                };
+                result[index].products.push({
+                    nmplant: item.nmplant,
+                    price: item.price
+                })
+            }
+            return result;
         }
 
         function initMap() {
@@ -107,13 +132,13 @@
         }
 
         function getYmm() {
-            var re = /"pos":({.*?})/gm, currentDrugStoreIndex = -1, count = 20,
+            var re = /"\\?pos\\?":({.*?})/gm, currentDrugStoreIndex = -1, count = 20,
                 ymm = {
                     load: function () {
                         var e = map.getBounds();
                         map.geoObjects.removeAll();
-                        for (var i = 0, j = 0; i < vm.model.drugStores.length && j < count; i++) {
-                            var item = vm.model.drugStores[i];
+                        for (var i = 0, j = 0; i < vm.model.groupedDrugStores.length && j < count; i++) {
+                            var item = vm.model.groupedDrugStores[i];
                             getPos(item);
                             if (isContains(item.pos, e)) {
                                 var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
@@ -157,14 +182,22 @@
                         });
                     },
                     generateBalloonContent: function (item) {
-                        return '<div class="b-map-balloon-price">' + item.price + ' руб.</div>' +
-                            (item.nmplant ? ('<div class="b-map-balloon-oname">' + item.nmplant + '</div>') : '') +
+                        return generateBalloonContentProducts(item.products) +
                             '<div class="b-map-balloon-shopname">' + item.nmfirm + '</div>' +
                             '<div class="b-map-balloon-worktime">' + item.time + '</div>' +
                             '<div class="b-map-balloon-addr">' + item.str + '</div>';
                     }
                 };
             return ymm;
+
+            function generateBalloonContentProducts(products) {
+                var res = '';
+                for (var i = 0; i < products.length; i++) {
+                    res += '<div><div class="b-map-balloon-price">' + products[i].price + ' руб.</div>' +
+                    (products[i].nmplant ? ('<div class="b-map-balloon-oname">' + products[i].nmplant + '</div>') : '') + '</div>';
+                }
+                return res;
+            }
 
             function getPos(obj) {
                 if (obj == null)
@@ -192,8 +225,8 @@
                 current = start;
                 while (!isComplete) {
 
-                    if (current >= 0 && current < vm.model.drugStores.length) {
-                        var item = vm.model.drugStores[current];
+                    if (current >= 0 && current < vm.model.groupedDrugStores.length) {
+                        var item = vm.model.groupedDrugStores[current];
                         getPos(item);
                         if (item.pos && item.pos.lat && item.pos.lon) {
                             if (map.balloon.isOpen())
@@ -208,13 +241,12 @@
                             isComplete = true;
                     }
                 }
-
             }
 
             function onNextDrugStore() {
                 centerDrugStoreByIndex(function () {
                     currentDrugStoreIndex++;
-                    if (currentDrugStoreIndex >= vm.model.drugStores.length)
+                    if (currentDrugStoreIndex >= vm.model.groupedDrugStores.length)
                         currentDrugStoreIndex = 0;
                     return currentDrugStoreIndex;
                 });
@@ -224,7 +256,7 @@
                 centerDrugStoreByIndex(function () {
                     currentDrugStoreIndex--;
                     if (currentDrugStoreIndex < 0)
-                        currentDrugStoreIndex = vm.model.drugStores.length - 1;
+                        currentDrugStoreIndex = vm.model.groupedDrugStores.length - 1;
                     return currentDrugStoreIndex;
                 });
             }
