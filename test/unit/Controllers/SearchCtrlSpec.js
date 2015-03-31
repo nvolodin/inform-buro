@@ -9,7 +9,7 @@ describe("Search Controller", function() {
 	}));
 
 	describe("when received search", function() {
-		var searchController, 
+		var searchController,
 			webServiceMock=(function(){
 				return {
 					getDrugs: function (query, callback) {
@@ -37,5 +37,33 @@ describe("Search Controller", function() {
 			expect(searchController.drugs.length).toEqual(1);
 			expect(searchController.drugs[0].prices).toBeGreaterThan(0);
 		});
-	});	
+	});
+	describe("when received wrong search", function(){
+		var searchController, $location,
+			webServiceMock=(function(){
+				return {
+					getDrugs: function (query, callback) {
+						if (callback) {
+							callback.call(this, []);
+						}
+					}
+				};
+			})(),
+			routeParams={drug:'t'};
+		beforeEach(function(){
+			module(function($provide){
+				$provide.value('webSocket', webServiceMock);
+				$provide.value('$routeParams',routeParams)
+			});
+
+			inject(function($injector, $controller){
+				$location= $injector.get('$location');
+				searchController=$controller('SearchCtrl');
+			});
+		});
+
+		it("should behave not found", function() {
+			expect($location.path()).toBe('/notFound');
+		});
+	});
 });

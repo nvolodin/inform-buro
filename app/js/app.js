@@ -23,6 +23,9 @@
                     controller: 'DrugStoreListCtrl',
                     controllerAs: 'dsc'
                 })
+                .when('/notFound', {
+                    templateUrl: 'views/notFound.html'
+                })
                 .otherwise({
                     redirectTo: '/search'
                 });

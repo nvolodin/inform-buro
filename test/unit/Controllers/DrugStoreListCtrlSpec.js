@@ -54,5 +54,34 @@ describe("Drug Store List Controller", function() {
 			expect(drugStoreListController.model.order.orderBy).toBe('price');
 			expect(drugStoreListController.model.order.orderReverse).toBe(true);
 		});
-	});	
+	});
+
+	describe("get not found", function() {
+		var drugStoreListController, $location,
+			webServiceMock=(function(){
+				return {
+					getDrugStoresByDrug: function (query, callback) {
+						if (callback) {
+							callback.call(this, []);
+						}
+					}
+				};
+			})(),
+			routeParams={cdprep:123,cdform:321};
+		beforeEach(function(){
+			module(function($provide){
+				$provide.value('webSocket', webServiceMock);
+				$provide.value('$routeParams',routeParams)
+			});
+
+			inject(function($injector,$controller){
+				$location=$injector.get('$location');
+				drugStoreListController=$controller('DrugStoreListCtrl');
+			});
+		});
+
+		it("should behave not found", function() {
+			expect($location.path()).toBe('/notFound');
+		});
+	});
 });

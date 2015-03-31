@@ -6,8 +6,8 @@
         .module('informBuroApp')
         .controller('SearchCtrl', SearchController);
 
-    SearchController.$inject = ['webSocket', '$routeParams'];
-    function SearchController(webSocket, $routeParams) {
+    SearchController.$inject = ['webSocket', '$routeParams', '$location'];
+    function SearchController(webSocket, $routeParams, $location) {
         var vm = this;
         init();
 
@@ -42,6 +42,9 @@
             vm.drugs = $.grep(data, function (item) {
                 return item.prices;
             });
+            if (!vm.drugs.length){
+                $location.path('/notFound');
+            }
         }
     }
 })();

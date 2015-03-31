@@ -4,8 +4,8 @@
     angular.module('informBuroApp')
         .controller('DrugStoreListCtrl', DrugStoreListController);
 
-    DrugStoreListController.$inject = ['webSocket', '$routeParams'];
-    function DrugStoreListController(webSocket, $routeParams) {
+    DrugStoreListController.$inject = ['webSocket', '$routeParams', '$location'];
+    function DrugStoreListController(webSocket, $routeParams, $location) {
         var vm = this, map, resizeTimer, _heightIsDirty = true, ymm = getYmm();
         init();
 
@@ -54,6 +54,8 @@
         function addDrugStore(data) {
             vm.model.drugStores = data;
             vm.model.groupedDrugStores = groupByDrugStore(data)
+            if (!vm.model.drugStores.length)
+                $location.path('/notFound');
         }
 
         function groupByDrugStore(data) {

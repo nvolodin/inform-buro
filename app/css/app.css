@@ -110,6 +110,17 @@
     }
 }
 
+.not-found-wrapper{
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.not-found-message-text{
+    box-sizing: border-box;
+    display: block;
+}
+
 @media (max-width: 480px) {
     .drug-store-list-item-wrapper {
         display: block;
