@@ -34,17 +34,25 @@
             if ($routeParams && $routeParams.drug) {
                 var text = decodeURIComponent($routeParams.drug);
                 vm.drugs = [];
+                vm.favorites=[];
                 webSocket.getDrugs(text, addDrug);
+            } else{
+                webSocket.getFavorites(addFavorites);
             }
         }
 
         function addDrug(data) {
+            vm.favorites=[];
             vm.drugs = $.grep(data, function (item) {
                 return item.prices;
             });
             if (!vm.drugs.length){
                 $location.path('/notFound');
             }
+        }
+
+        function addFavorites(data){
+            vm.favorites=data;
         }
     }
 })();

@@ -1,17 +1,28 @@
 <div style=padding-top:20px>
-	<ul class="list-unstyled">
-		<li  ng-repeat="drug in sc.drugs">
-			<dl>
-				<dt>
-					<a ng-bind="::drug.nmprep" ng-href="#!/drugStoreList/{{::drug.cdprep}}/{{::drug.cdform}}"></a>
-				</dt>
-				<dd>
-					<span ng-bind="::drug.form"></span>
-					<span ng-bind="::drug.nmmnn"></span>
-					<span class="drug-offers" ng-bind="::sc.getDrugOffersCount(drug.prices)"></span>
-				</dd>
-			</dl>
-			<hr/>
-		</li>
-	</ul>
+    <ul class="list-unstyled">
+        <li ng-repeat="favorite in sc.favorites">
+            <dl>
+                <dt>
+                    <a ng-bind="::favorite.nmprep" ng-href="#!/search/{{::favorite.nmprep}}"></a>
+                </dt>
+                <dd>
+                    <span ng-bind="::favorite.form"></span>
+                </dd>
+            </dl>
+            <hr/>
+        </li>
+        <li ng-repeat="drug in sc.drugs">
+            <dl>
+                <dt>
+                    <a ng-bind="::drug.nmprep" ng-href="#!/drugStoreList/{{::drug.cdprep}}/{{::drug.cdform}}"></a>
+                </dt>
+                <dd>
+                    <span ng-bind="::drug.form"></span>
+                    <span ng-bind="::drug.nmmnn"></span>
+                    <span class="drug-offers" ng-bind="::sc.getDrugOffersCount(drug.prices)"></span>
+                </dd>
+            </dl>
+            <hr/>
+        </li>
+    </ul>
 </div>
