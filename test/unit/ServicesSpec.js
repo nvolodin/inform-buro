@@ -62,7 +62,9 @@ describe('Services', function () {
 
 
         it('should send emit', function () {
-            expect(mock.internal.emit).toHaveBeenCalledWith('send_gridtable1', ['', searchQueryActual, , , 'все', 'все', '', '', , , , , , , , , '', '']);
+            expect(mock.internal.emit).toHaveBeenCalledWith('send_gridtable1', [
+                'input1', searchQueryActual, , , '1', 'САМАРА', '', '', , , , , , , , , '', ''
+            ]);
         });
 
         it("should receive data", function () {
@@ -117,12 +119,12 @@ describe('Services', function () {
 
         it("should send emit", function () {
             expect(mock.internal.emit).toHaveBeenCalledWith('send_gridtable4', [
-                '',
+                'clickform1',
                 '',
                 drugDataMock.cdprep,
                 drugDataMock.cdform,
-                "все",
-                "Все",
+                "1",
+                "САМАРА",
                 "",
                 "", , , , , , , , , "", ""]);
         });
@@ -177,7 +179,7 @@ describe('Services', function () {
         });
 
         it('should send emit', function () {
-            expect(mock.internal.emit).toHaveBeenCalledWith('get_lekar_stat','');
+            expect(mock.internal.emit).toHaveBeenCalledWith('get_lekar_stat', '');
         });
 
         it("should receive data", function () {

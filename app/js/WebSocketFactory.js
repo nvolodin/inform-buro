@@ -15,7 +15,7 @@
                 getDrugStoresByDrug: getDrugStoresByDrug,
                 getFavorites: getFavorites
             },
-            socket = $io.connect('http:inform-buro.info:80');
+            socket = $io.connect('http://inform-buro.info');//'http:inform-buro.info:80');
 
         socket.on('error', function () {
             console.log('there was an error');
@@ -24,7 +24,7 @@
         return service;
 
         function getDrugs(query, callback) {
-            socket.emit('send_gridtable1', ['', query, , , 'все', 'все', '', '', , , , , , , , , '', '']);
+            socket.emit('send_gridtable1', ['input1', query, , , '1', 'САМАРА', '', '', , , , , , , , , '', '']);
             socket.on('grid_data1', function () {
                 var args = arguments;
                 $rootScope.$apply(function () {
@@ -35,12 +35,12 @@
 
         function getDrugStoresByDrug(drugItem, callback) {
             var requestData = [
-                '',
+                'clickform1',
                 '',
                 drugItem.cdprep,
                 drugItem.cdform,
-                "все",
-                "Все",
+                "1",
+                "САМАРА",
                 "",
                 "", , , , , , , , , "", ""]
             socket.emit('send_gridtable4', requestData);
