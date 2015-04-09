@@ -25,7 +25,7 @@
         vm.showMap = function () {
             vm.model.state = 'maps';
             if (!ymaps)
-            return;
+                return;
             !map && ymaps && ymaps.ready(initMap);
             if (_heightIsDirty)
                 setTimeout(setMapHeight, 1);
@@ -67,7 +67,10 @@
                 index = itemsHash[item.cdfirm];
                 result[index] = result[index] || {
                     cdfirm: item.cdfirm,
-                    map: item.map,
+                    pos: {
+                        lat: item.map2,
+                        lon: item.map1
+                    },
                     nmfirm: item.nmfirm,
                     phones: item.phones,
                     str: item.str,
@@ -136,14 +139,13 @@
         }
 
         function getYmm() {
-            var re = /"\\?pos\\?":({.*?})/gm, currentDrugStoreIndex = -1, count = 20,
+            var currentDrugStoreIndex = -1, count = 20,
                 ymm = {
                     load: function () {
                         var e = map.getBounds();
                         map.geoObjects.removeAll();
                         for (var i = 0, j = 0; i < vm.model.groupedDrugStores.length && j < count; i++) {
                             var item = vm.model.groupedDrugStores[i];
-                            getPos(item);
                             if (isContains(item.pos, e)) {
                                 var s = new ymaps.Placemark([item.pos.lat, item.pos.lon], {
                                     iconContent: ++j,
@@ -203,20 +205,6 @@
                 return res;
             }
 
-            function getPos(obj) {
-                if (obj == null)
-                    return null;
-                if (!obj.pos) {
-                    var m = re.exec(obj.map);
-                    if (m && m.length == 2) {
-                        obj.pos = $.parseJSON(m[1]);
-                        obj.pos.lat = parseFloat(obj.pos.lat);
-                        obj.pos.lon = parseFloat(obj.pos.lon);
-                    }
-                }
-                return obj.pos;
-            }
-
             function isContains(pos, rect) {
                 return pos && pos.lat && pos.lon && rect && rect.length == 2 && pos.lat > rect[0][0] && pos.lon > rect[0][1] && pos.lat < rect[1][0] && pos.lon < rect[1][1];
             }
@@ -231,7 +219,6 @@
 
                     if (current >= 0 && current < vm.model.groupedDrugStores.length) {
                         var item = vm.model.groupedDrugStores[current];
-                        getPos(item);
                         if (item.pos && item.pos.lat && item.pos.lon) {
                             if (map.balloon.isOpen())
                                 map.balloon.close();
