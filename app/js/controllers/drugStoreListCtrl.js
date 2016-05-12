@@ -163,7 +163,7 @@
                     proceedInit: function () {
                         var prevBtn = new ymaps.control.Button({
                                 data: {
-                                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-left',
+                                    iconType: 'prevDrugStore nav-drug-store glyphicon glyphicon-triangle-left',
                                     title: 'Предыдущая аптека'
                                 },
                                 options: {
@@ -172,7 +172,7 @@
                             }),
                             nextBtn = new ymaps.control.Button({
                                 data: {
-                                    iconType: 'prevDrugStore glyphicon glyphicon-triangle-right',
+                                    iconType: 'prevDrugStore nav-drug-store glyphicon glyphicon-triangle-right',
                                     title: 'Следующая аптека'
                                 },
                                 options: {
